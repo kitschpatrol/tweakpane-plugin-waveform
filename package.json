@@ -1,7 +1,7 @@
 {
-  "name": "tweakpane-plugin-waveform",
+  "name": "@kitschpatrol/tweakpane-plugin-waveform",
   "version": "1.0.0",
-  "description": "Waveform Monitor plugin for tweakpane",
+  "description": "Waveform Monitor plugin for Tweakpane 4",
   "main": "dist/tweakpane-plugin-waveform.js",
   "type" : "module",
   "types": "dist/types/index.d.ts",
@@ -10,6 +10,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "assets" : "run-s clean build assets:version assets:zip",
     "assets:version" : "node scripts/assets-append-version.js",
