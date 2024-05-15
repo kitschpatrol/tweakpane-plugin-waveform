@@ -1,6 +1,5 @@
 /* eslint-env node */
 
-import Alias from '@rollup/plugin-alias';
 import {nodeResolve} from '@rollup/plugin-node-resolve';
 import Replace from '@rollup/plugin-replace';
 import Typescript from '@rollup/plugin-typescript';
@@ -9,8 +8,6 @@ import Postcss from 'postcss';
 import Cleanup from 'rollup-plugin-cleanup';
 import {terser as Terser} from 'rollup-plugin-terser';
 import Sass from 'sass';
-
-import Package from './package.json';
 
 async function compileCss() {
 	const css = Sass.renderSync({
@@ -26,14 +23,6 @@ async function compileCss() {
 
 function getPlugins(css, shouldMinify) {
 	const plugins = [
-		Alias({
-			entries: [
-				{
-					find: '@tweakpane/core',
-					replacement: './node_modules/@tweakpane/core/dist/index.js',
-				},
-			],
-		}),
 		Typescript({
 			tsconfig: 'src/tsconfig.json',
 		}),
@@ -64,13 +53,10 @@ export default async () => {
 	const css = await compileCss();
 	return {
 		input: 'src/index.ts',
-		external: ['tweakpane'],
+		external: ['tweakpane', '@tweakpane/core'],
 		output: {
 			file: `dist/${distName}${postfix}.js`,
 			format: 'esm',
-			globals: {
-				tweakpane: 'Tweakpane',
-			},
 		},
 		plugins: getPlugins(css, production),
 

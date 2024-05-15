@@ -59,6 +59,15 @@
       line-height: 1.6;
     }
   </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "tweakpane": "../node_modules/tweakpane/dist/tweakpane.js",
+        "@tweakpane/core": "../node_modules/@tweakpane/core/dist/index.js",
+        "tweakpane-plugin-waveform": "../dist/tweakpane-plugin-waveform.js"
+      }
+    }
+  </script>
 </head>
 <body class="sketch">
   <div class="wrapper">
@@ -71,8 +80,8 @@
     </div>
   </div>
   <script type="module">
-    import * as Tweakpane from '../node_modules/tweakpane/dist/tweakpane.js';
-		import * as TweakpaneWaveformPlugin from '../dist/tweakpane-plugin-waveform.js';
+    import * as Tweakpane from 'tweakpane';
+		import * as TweakpaneWaveformPlugin from 'tweakpane-plugin-waveform';
 
     window.ctx = new AudioContext();
     window.anl = ctx.createAnalyser();
