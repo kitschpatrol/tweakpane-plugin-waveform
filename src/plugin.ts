@@ -49,7 +49,7 @@ export const WaveformPlugin: MonitorBindingPlugin<
             value === 'linear' || value === 'bezier' ? value : undefined,
           ),
           view: p.optional.string,
-        } as any), // TODO types
+        }) as any, // TODO types
     );
     return result ? {initialValue: value, params: result} : null;
   },
