@@ -3,13 +3,14 @@
 	"version": "1.0.4-beta.2",
 	"type": "module",
 	"description": "A fork of tweakpane-plugin-waveform with build optimizations.",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/kitschpatrol/tweakpane-plugin-waveform.git"
-	},
+	"repository": "github:kitschpatrol/tweakpane-plugin-waveform",
 	"author": "shoelder",
 	"license": "MIT",
 	"packageManager": "pnpm@9.10.0",
+	"engines": {
+		"node": ">=18.0.0",
+		"pnpm": ">=9.0.0"
+	},
 	"main": "dist/tweakpane-plugin-waveform.js",
 	"types": "dist/types/index.d.ts",
 	"files": [
