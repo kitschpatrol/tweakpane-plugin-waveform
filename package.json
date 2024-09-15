@@ -1,6 +1,6 @@
 {
 	"name": "@kitschpatrol/tweakpane-plugin-waveform",
-	"version": "1.0.4-beta.1",
+	"version": "1.0.4-beta.2",
 	"type": "module",
 	"description": "A fork of tweakpane-plugin-waveform with build optimizations.",
 	"repository": {
