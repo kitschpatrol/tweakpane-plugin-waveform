@@ -4,12 +4,8 @@
 .#{tp.$prefix}-wfmv {
 	position: relative;
 
-	background-image: linear-gradient(
-			to right,
-			tp.cssVar('container-bg'),
-			1px,
-			transparent 1px
-		),
+	background-image:
+		linear-gradient(to right, tp.cssVar('container-bg'), 1px, transparent 1px),
 		linear-gradient(to bottom, tp.cssVar('container-bg'), 1px, transparent 1px);
 
 	&_g {
