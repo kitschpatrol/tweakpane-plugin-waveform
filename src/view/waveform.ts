@@ -1,4 +1,4 @@
-import type { BufferedValue, ValueMap, View, ViewProps } from '@tweakpane/core'
+import type { BufferedValue, TpBuffer, ValueMap, View, ViewProps } from '@tweakpane/core'
 import { ClassName, mapRange, SVG_NS } from '@tweakpane/core'
 import { CubicBézierDrawerProvider, LinearDrawerProvider } from './waveform-drawer'
 
@@ -27,6 +27,12 @@ type Config = {
 }
 
 const className = ClassName('wfm')
+
+/** Returns the newest entry of a monitor buffer, which fills from the start. */
+function newestSample<T>(buffer: TpBuffer<T>): T | undefined {
+	const emptyIndex = buffer.indexOf(undefined)
+	return buffer[(emptyIndex === -1 ? buffer.length : emptyIndex) - 1]
+}
 
 /**
  * @ignore
@@ -75,7 +81,7 @@ export class WaveformView implements View {
 
 	private refresh(): void {
 		const bounds = this.svgElem.getBoundingClientRect()
-		const latestValue = this.value.rawValue[0]
+		const latestValue = newestSample(this.value.rawValue)
 
 		if (!latestValue) {
 			return
