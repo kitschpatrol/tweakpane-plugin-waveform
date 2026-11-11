@@ -15,7 +15,7 @@ function shouldShowWaveform(params: WaveformMonitorParams): boolean {
 }
 
 function isWaveformType(value: unknown): value is WaveformValue {
-	return typeof value === 'object' && 'length' in (value as Record<string, unknown>)
+	return typeof value === 'object' && value !== null && 'length' in value
 }
 
 export const WaveformPlugin: MonitorBindingPlugin<WaveformValue, WaveformMonitorParams> =
