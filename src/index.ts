@@ -7,3 +7,6 @@ export const id = 'waveform'
 export const css: string = pluginCss
 
 export const plugins: TpPlugin[] = [WaveformPlugin]
+
+export type { WaveformMonitorParams } from './plugin'
+export type { WaveformStyles, WaveformValue } from './view/waveform'
