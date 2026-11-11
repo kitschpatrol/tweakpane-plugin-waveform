@@ -40,6 +40,8 @@ export class WaveformView implements View {
 	private readonly value: BufferedValue<WaveformValue>
 
 	constructor(doc: Document, config: Config) {
+		this.onValueChange_ = this.onValueChange_.bind(this)
+
 		this.element = doc.createElement('div')
 		this.element.classList.add(className())
 		config.viewProps.bindClassModifiers(this.element)
@@ -53,7 +55,7 @@ export class WaveformView implements View {
 
 		this.props = config.props
 		this.value = config.value
-		this.value.emitter.on('change', this.onValueChange_.bind(this))
+		this.value.emitter.on('change', this.onValueChange_)
 
 		this.lineDrawerProvider =
 			this.props.get('lineStyle') === 'bezier'
