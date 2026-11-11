@@ -1,81 +1,70 @@
 <!doctype html>
 <html lang="en">
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta charset="UTF-8" />
-		<title></title>
+		<title>Tweakpane waveform demo</title>
 		<style>
 			body {
 				margin: 0;
 			}
 
 			.sketch {
-				background-image: radial-gradient(
-						hsla(230, 5%, 80%, 0.08) 2px,
-						transparent 0
-					),
+				position: relative;
+				background-color: hsl(230deg 5% 9%);
+				background-image:
+					radial-gradient(hsl(230deg 5% 80% / 8%) 2px, transparent 0),
 					radial-gradient(hsl(0deg 0% 100% / 8%) 1px, transparent 0);
+				background-repeat: repeat;
+				background-position: center;
 				background-size:
 					32px 32px,
 					8px 8px;
-				background-position: center;
-				background-color: hsl(230deg 5% 9%);
-				position: relative;
 			}
 
 			.wrapper {
-				padding: 128px;
 				position: static;
-				align-items: center;
 				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
 				justify-content: space-between;
 				box-sizing: border-box;
-				margin-left: auto;
 				margin-right: auto;
+				margin-left: auto;
+				padding: 128px;
 			}
 
 			.text {
-				font-family:
-					Fira Code,
-					sans-serif;
+				font-family: 'Fira Code', sans-serif;
 				color: white;
 			}
 
 			.text > h1 {
-				padding-top: 8px;
-				padding-bottom: 32px;
-				padding-right: 32px;
-				font-weight: 500;
-				letter-spacing: 0.01em;
 				margin: 0;
+				padding-top: 8px;
+				padding-right: 32px;
+				padding-bottom: 32px;
 				font-size: 2rem;
+				font-weight: 500;
 				line-height: 1;
+				letter-spacing: 0.01em;
 			}
 
 			.text > h2 {
-				font-size: 1rem;
-				padding: 0;
 				margin: 0;
+				padding: 0;
+				font-size: 1rem;
 			}
 
 			.text > p {
-				margin-top: 0;
-				padding-left: 0.1em;
-				padding-right: 0.1em;
 				margin: 0;
 				padding: 0;
+				padding-right: 0.1em;
+				padding-left: 0.1em;
 				font-size: 16px;
 				line-height: 1.6;
 			}
 		</style>
-		<script type="importmap">
-			{
-				"imports": {
-					"tweakpane": "../node_modules/tweakpane/dist/tweakpane.js",
-					"@tweakpane/core": "../node_modules/@tweakpane/core/dist/index.js",
-					"tweakpane-plugin-waveform": "../dist/tweakpane-plugin-waveform.js"
-				}
-			}
-		</script>
 	</head>
 	<body class="sketch">
 		<div class="wrapper">
@@ -87,125 +76,125 @@
 			<div id="container"></div>
 		</div>
 		<script type="module">
-			import * as Tweakpane from 'tweakpane';
-			import * as TweakpaneWaveformPlugin from 'tweakpane-plugin-waveform';
+			import * as Tweakpane from 'tweakpane'
+			import * as TweakpanePluginWaveform from '../src/index.ts'
 
-			window.ctx = new AudioContext();
-			window.anl = ctx.createAnalyser();
-			window.osc = null;
-			window.gain = null;
+			window.ctx = new AudioContext()
+			window.anl = ctx.createAnalyser()
+			window.osc = null
+			window.gain = null
 
-			anl.connect(ctx.destination);
-			anl.fftSize = 2048;
+			anl.connect(ctx.destination)
+			anl.fftSize = 2048
 
 			const params = {
 				smallNumberArray: [5, 6, 7, 8, 9, 3, 9, 8, 7, 6, 5],
 				normalizedFloatArray: [
-					0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4,
-					0.3, 0.2, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.1, 0.2, 0.3,
-					0.4, 0.5, 0.6, 0.7,
+					0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.2,
+					0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7,
 				],
-				uint8Array: new Uint8Array(8)
-					.fill(0)
-					.map((_, i) => Math.pow(2, i + 1) - 1),
-				uint16Array: new Uint16Array(16)
-					.fill(0)
-					.map((_, i) => Math.pow(2, i + 1) - 1),
-				uint32Array: new Uint32Array(32)
-					.fill(0)
-					.map((_, i) => Math.pow(2, i + 1) - 1),
+				uint8Array: new Uint8Array(8).fill(0).map((_, i) => Math.pow(2, i + 1) - 1),
+				uint16Array: new Uint16Array(16).fill(0).map((_, i) => Math.pow(2, i + 1) - 1),
+				uint32Array: new Uint32Array(32).fill(0).map((_, i) => Math.pow(2, i + 1) - 1),
 				webAudioApiAnlBuf: new Uint8Array(anl.frequencyBinCount),
-			};
+			}
 
 			setInterval(() => {
-				if (osc)
-					osc.frequency.value =
-						osc.frequency.value > 100 ? 40 : osc.frequency.value + 1;
+				if (osc) {
+					osc.frequency.value = osc.frequency.value > 100 ? 40 : osc.frequency.value + 1
+				}
 
 				if (gain) {
-					gain.gain.value %= 0.6;
-					gain.gain.value += 0.01;
-					console.log(gain.gain.value);
+					gain.gain.value %= 0.6
+					gain.gain.value += 0.01
+					console.log(gain.gain.value)
 				}
-			}, 500);
+			}, 500)
 
 			setInterval(() => {
-				anl.getByteTimeDomainData(params.webAudioApiAnlBuf);
-				pane.refresh();
-			}, 1);
+				anl.getByteTimeDomainData(params.webAudioApiAnlBuf)
+				pane.refresh()
+			}, 1)
 
 			setInterval(() => {
 				params.smallNumberArray = params.smallNumberArray.map((v) =>
 					Math.max(0, Math.min(10, v + (Math.random() * 2 - 1) * 0.1)),
-				);
+				)
 				params.normalizedFloatArray = params.normalizedFloatArray.map((v) =>
 					Math.max(0, Math.min(1, v + (Math.random() * 2 - 1) * 0.1)),
-				);
-				params.uint8Array = params.uint8Array.map((v) => ++v);
-				params.uint16Array = params.uint16Array.map((v) => v + 1e2);
-				params.uint32Array = params.uint32Array.map((v) => v + 1e8);
-			}, 50);
+				)
+				params.uint8Array = params.uint8Array.map((v) => ++v)
+				params.uint16Array = params.uint16Array.map((v) => v + 1e2)
+				params.uint32Array = params.uint32Array.map((v) => v + 1e8)
+			}, 50)
 
 			const pane = new Tweakpane.Pane({
 				container: document.querySelector('#container'),
 				title: 'Waveform',
-			});
+			})
 
 			// Register plugin
-			pane.registerPlugin(TweakpaneWaveformPlugin);
+			pane.registerPlugin(TweakpanePluginWaveform)
 
 			// Test Grid
 			pane.addBinding(params, 'smallNumberArray', {
+				readonly: true,
 				view: 'waveform',
 				min: -1,
 				max: 11,
 				style: 'bezier',
 				interval: 100,
-			});
+			})
 
 			// Test Grid 2
 			pane.addBinding(params, 'normalizedFloatArray', {
+				readonly: true,
 				view: 'waveform',
 				min: 0,
 				max: 1,
 				style: 'bezier',
 				interval: 100,
-			});
+			})
 
 			pane.addBinding(params, 'uint8Array', {
+				readonly: true,
 				view: 'waveform',
 				min: 0,
 				max: Math.pow(2, 8),
 				interval: 500,
-			});
+			})
 
 			pane.addBinding(params, 'uint16Array', {
+				readonly: true,
 				view: 'waveform',
 				min: 0,
 				max: Math.pow(2, 16),
 				interval: 500,
-			});
+			})
 
 			pane.addBinding(params, 'uint32Array', {
+				readonly: true,
 				view: 'waveform',
 				min: 0,
 				max: Math.pow(2, 32),
 				interval: 500,
 				style: 'bezier',
-			});
+			})
 
 			pane.addBinding(params, 'webAudioApiAnlBuf', {
+				readonly: true,
 				view: 'waveform',
 				min: -10,
 				max: Math.pow(2, 8) + 10,
 				interval: 0,
-			});
+			})
 
 			pane.addBinding(params, 'webAudioApiAnlBuf', {
 				label: 'webAudioApiAnlBuf\n/w auto min/max',
+				readonly: true,
 				view: 'waveform',
 				interval: 0,
-			});
+			})
 
 			const audioToggleBtn = pane
 				.addButton({
@@ -213,20 +202,20 @@
 				})
 				.on('click', () => {
 					if (osc) {
-						osc.stop();
-						osc = null;
-						gain = null;
-						audioToggleBtn.title = 'Start Web Audio API';
+						osc.stop()
+						osc = null
+						gain = null
+						audioToggleBtn.title = 'Start Web Audio API'
 					} else {
-						osc = ctx.createOscillator();
-						gain = ctx.createGain();
-						gain.gain.value = 0.05;
-						gain.connect(anl);
-						osc.connect(gain);
-						osc.start();
-						audioToggleBtn.title = 'Stop Web Audio API';
+						osc = ctx.createOscillator()
+						gain = ctx.createGain()
+						gain.gain.value = 0.05
+						gain.connect(anl)
+						osc.connect(gain)
+						osc.start()
+						audioToggleBtn.title = 'Stop Web Audio API'
 					}
-				});
+				})
 		</script>
 	</body>
 </html>

@@ -1,9 +1,9 @@
-import {TpPlugin} from '@tweakpane/core';
+import type { TpPlugin } from '@tweakpane/core'
+import { WaveformPlugin } from './plugin'
+import pluginCss from './styles/plugin.scss?inline'
 
-import {WaveformPlugin} from './plugin.js';
+export const id = 'waveform'
 
-export const id = 'waveform';
+export const css: string = pluginCss
 
-export const css = '__css__';
-
-export const plugins: TpPlugin[] = [WaveformPlugin];
+export const plugins: TpPlugin[] = [WaveformPlugin]

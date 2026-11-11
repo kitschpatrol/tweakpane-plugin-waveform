@@ -1,12 +1,12 @@
 // Import core styles
-@use '../../node_modules/@tweakpane/core/lib/sass/tp';
+@use '@tweakpane/core/lib/sass/tp';
 
 .#{tp.$prefix}-wfmv {
 	position: relative;
-
 	background-image:
 		linear-gradient(to right, tp.cssVar('container-bg'), 1px, transparent 1px),
 		linear-gradient(to bottom, tp.cssVar('container-bg'), 1px, transparent 1px);
+	background-repeat: repeat;
 
 	&_g {
 		@extend %tp-monitor;
@@ -20,11 +20,9 @@
 			stroke-linejoin: round;
 		}
 	}
+
 	&_t {
 		margin-top: -4px;
-		transition:
-			left 0.05s,
-			top 0.05s;
 		visibility: hidden;
 
 		&#{&}-a {
@@ -32,6 +30,12 @@
 		}
 		&#{&}-in {
 			transition: none;
+		}
+
+		@media (prefers-reduced-motion: no-preference) {
+			transition:
+				left 0.05s,
+				top 0.05s;
 		}
 	}
 	&.#{tp.$prefix}-v-disabled &_g {
