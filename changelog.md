@@ -5,13 +5,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.4-fork.2] - 2026-11-11
+
+### Added
+
+- Export `WaveformMonitorParams`, `WaveformStyles`, and `WaveformValue` from the package entry points.
+- Add `/lite` and minified lite builds that import `@tweakpane/core` so bundlers can share it across plugins.
+
+### Changed
+
+- Bundle `@tweakpane/core` in the default and minified ESM builds, allowing direct browser imports without a separate core import map.
+- **Breaking:** Restrict package imports to the root, `/lite`, and `/package.json`, blocking previously accessible internal `dist` paths.
+- **Breaking:** Raise the distributed JavaScript target from ES2015 to ES2022.
+- **Breaking:** Narrow declared Node.js support to major versions 18, 20, 22, and 24, or 26 and later.
+
+### Fixed
+
+- Reject `null` waveform values without throwing.
+- Remove the waveform change listener when a binding is disposed, preventing further redraws.
+- Draw the newest buffered waveform sample instead of the oldest, keeping refreshed bindings up to date.
+- Correct the exported `css` type from the build placeholder literal to `string`.
+
+### Documentation
+
+- Add installation and waveform-binding examples, document Tweakpane 4 and `/lite` dependency requirements, and summarize the fork's changes.
+- Document contribution guidelines and shared tooling, and credit the original plugin template's contributions.
 
 ### Maintenance
 
 - Update the pinned pnpm version to 12.16.1.
 - Update the GitHub release-note and release publishing actions.
 - Use a 1Password one-time password for npm publishing in the release script.
+- Migrate Rollup and declaration builds to tsdown with inline SCSS, publint, and Are the Types Wrong checks; remove the prepare hook and legacy ZIP asset tooling.
+- Adopt `@kitschpatrol/shared-config` and `ksc` for linting, formatting, and type checking, with VS Code contributor tasks.
+- Move the interactive demo to `demo/` and serve it with Vite through `pnpm dev` for live reloading.
+- Add Vitest and happy-dom regression tests for plugin registration, styles, validation, rendering, refreshes, and disposal, with build, lint, and test CI on Linux, macOS, and Windows.
+- Add a monthly workflow that opens dependency-maintenance pull requests.
+- Integrate `chagent` into `bumpp` releases to generate changelog entries and include them in release commits.
+- Refresh development dependencies and pinned repository-maintenance actions, and update pnpm to 12.18.0.
 
 ## [1.0.4-fork.1] - 2026-10-15
 
@@ -124,7 +155,6 @@ No notable changes.
 
 - Establish TypeScript and Rollup builds, linting, formatting, watch mode, and release asset packaging, with corrected formatting and test scripts.
 
-[Unreleased]: https://github.com/kitschpatrol/tweakpane-plugin-waveform/compare/1.0.4-fork.1...HEAD
 [0.1.0]: https://github.com/kitschpatrol/tweakpane-plugin-waveform/releases/tag/0.1.0
 [0.1.2]: https://github.com/kitschpatrol/tweakpane-plugin-waveform/compare/0.1.0...0.1.2
 [1.0.0]: https://github.com/kitschpatrol/tweakpane-plugin-waveform/compare/0.1.2...1.0.0
@@ -132,3 +162,4 @@ No notable changes.
 [1.0.4-beta.2]: https://github.com/kitschpatrol/tweakpane-plugin-waveform/compare/1.0.4-beta.1...1.0.4-beta.2
 [1.0.4-beta.3]: https://github.com/kitschpatrol/tweakpane-plugin-waveform/compare/1.0.4-beta.2...1.0.4-beta.3
 [1.0.4-fork.1]: https://github.com/kitschpatrol/tweakpane-plugin-waveform/compare/1.0.4-beta.3...1.0.4-fork.1
+[1.0.4-fork.2]: https://github.com/kitschpatrol/tweakpane-plugin-waveform/compare/1.0.4-fork.1...1.0.4-fork.2
